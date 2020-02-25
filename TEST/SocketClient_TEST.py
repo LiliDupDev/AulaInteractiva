@@ -1,6 +1,6 @@
 import socket
 
-SERVER = "127.0.0.1"
+SERVER = "192.168.1.131"
 PORT = 1800
 
 # Building socket( Address Format Internet, )
