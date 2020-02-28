@@ -1,16 +1,17 @@
 from Sockets.SocketClient import SocketClient
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 
 
 
 class Observer(SocketClient):
-    mpin = 17
+    """mpin = 17
     tpin = 27
     cap = 0.000001
     adj = 2.130620985
     i = 0
     t = 0
+
     def LDR(self):
         try:
             lecture=0 
@@ -37,9 +38,16 @@ class Observer(SocketClient):
             return lecture
         except:
             GPIO.cleanup()
-        
+        """
     def __init__(self,ip,port):
         SocketClient.__init__(self,ip,port)
+
+    def run2(self,message):
+        self.open_connection()
+        self.send_message(bytes(message, 'UTF-8'))
+        self.close_connection()
+
+
 
     def run(self):
         self.open_connection()
@@ -50,7 +58,7 @@ class Observer(SocketClient):
         while(True):
             #in_data = self.receive_package(1024)
             #print("From Server :", in_data.decode())
-            out_data = str(self.LDR())
+            out_data = "1"#str(self.LDR())
             print("Data", out_data)
             if out_data!='0':
                 self.send_message(bytes(out_data, 'UTF-8'))
@@ -60,9 +68,9 @@ class Observer(SocketClient):
         
             
 
-
-obs = Observer("127.0.0.1", 8080)
-GPIO.setmode(GPIO.BCM)
-obs.run()
-GPIO.cleanup()  
+obs=Observer("192.168.0.139",10000)
+#obs = Observer("192.168.0.139", 8080)
+#GPIO.setmode(GPIO.BCM)
+obs.run2("LILI CHAN")
+#GPIO.cleanup()
 		
