@@ -13,11 +13,12 @@ class Server(SocketServer):
         while True:
             in_data = self.receive_package(1024)
             msg = in_data.decode()
+            print(msg)
             if msg == 'bye':
                 break
-            print("From Client :", msg)
-            out_data = input()
-            self.send_message(bytes(out_data, 'UTF-8'))
+            #print("From Client :", msg)
+            #out_data = input()
+            #self.send_message(bytes(out_data, 'UTF-8'))
 
         print("Client disconnected...")
         self.close_connection()

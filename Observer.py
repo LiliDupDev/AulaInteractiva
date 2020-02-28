@@ -2,56 +2,67 @@ from Sockets.SocketClient import SocketClient
 import RPi.GPIO as GPIO
 import time
 
-mpin = 17
-tpin = 27
-GPIO.setmode(GPIO.BCM)
-cap = 0.000001
-adj = 2.130620985
-i = 0
-t = 0
 
-def LDR():
-    i = 0
-    t = 0
-    GPIO.setup(mpin,GPIO.OUT)
-	GPIO.setup(tpin,GPIO.OUT)
-	GPIO.output(mpin,False)
-	GPIO.output(tpin,False)
-	time.sleep(0.2)
-	GPIO.setup(mpin,GPIO.IN)
-	time.sleep(0.2)
-	GPIO.output(tpin,True)
-	starttime = time.time()
-	endtime = time.time()
-	while (GPIO.input(mpin) == GPIO.LOW):
-		endtime = time.time()
-	measureresistance = endtime - starttime
-	res = (measureresistance/cap)*adj
-	i = i+1
-	t= t + res
-	if i == 10:
-		t = t/i
-		return(t)
-		
 
 class Observer(SocketClient):
-
+    mpin = 17
+    tpin = 27
+    cap = 0.000001
+    adj = 2.130620985
+    i = 0
+    t = 0
+    def LDR(self):
+        try:
+            lecture=0 
+            GPIO.setup(self.mpin,GPIO.OUT)
+            GPIO.setup(self.tpin,GPIO.OUT)
+            GPIO.output(self.mpin,False)
+            GPIO.output(self.tpin,False)
+            time.sleep(0.2)
+            GPIO.setup(self.mpin,GPIO.IN)
+            time.sleep(0.2)
+            GPIO.output(self.tpin,True)
+            starttime = time.time()
+            endtime = time.time()
+            while (GPIO.input(self.mpin) == GPIO.LOW):
+                endtime = time.time()
+            measureresistance = endtime - starttime
+            res = (measureresistance/self.cap)*self.adj
+            self.i = self.i+1
+            self.t = self.t + res
+            if self.i == 10:
+                lecture = self.t/self.i
+                self.t = 0
+                self.i = 0         
+            return lecture
+        except:
+            GPIO.cleanup()
+        
     def __init__(self,ip,port):
         SocketClient.__init__(self,ip,port)
 
     def run(self):
         self.open_connection()
         self.send_message(bytes("This is from Client", 'UTF-8'))
+        #GPIO.setmode(GPIO.BCM)		
 
+        
         while(True):
-            in_data = self.receive_package(1024)
-            print("From Server :", in_data.decode())
-            out_data = LDR()
-            self.send_message(bytes(str(out_data), 'UTF-8'))
+            #in_data = self.receive_package(1024)
+            #print("From Server :", in_data.decode())
+            out_data = str(self.LDR())
+            print("Data", out_data)
+            if out_data!='0':
+                self.send_message(bytes(out_data, 'UTF-8'))
             if out_data == 'bye':
                 break
         self.close_connection()
+        
+            
 
 
-obs = Observer("192.168.0.144", 8080)
+obs = Observer("127.0.0.1", 8080)
+GPIO.setmode(GPIO.BCM)
 obs.run()
+GPIO.cleanup()  
+		
