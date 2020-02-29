@@ -1,9 +1,8 @@
 from Sockets.SocketServer import SocketServer
-import RPi.GPIO as GPIO
-import time
+from Sockets.SocketClient import SocketClient
+import threading
 
 class Server(SocketServer):
-
     def __init__(self, ip, port):
         SocketServer.__init__(self, ip, port)
 
@@ -11,26 +10,32 @@ class Server(SocketServer):
     def listen_connection(self):
         self.open_connection()
         print("Connected client :", self.clientAddress)
-        msg = ''
+        client = SocketClient('192.168.0.139', 10000)
+        client.open_connection()
         while True:
             in_data = self.receive_package(1024)
             msg = in_data.decode()
-            print(msg,',')
-            if msg == '1':
-                GPIO.output(18, GPIO.HIGH)
-            if msg == '0':
-                GPIO.output(18, GPIO.LOW)
-            if msg == 'bye':
+            print(msg)
+            try:
+                value = float(msg)
+                if value > 10000:
+                    thread1 = threading.Thread(target=self.send_message_as_client, args=(client, '1'))
+                    thread1.start()
+                    thread1.join()
+                else:
+                    thread1 = threading.Thread(target=self.send_message_as_client, args=(client, '0'))
+                    thread1.start()
+                    thread1.join()
+            except:
+                print(msg)
                 break
-            #print("From Client :", msg)
-            #out_data = input()
-            #self.send_message(bytes(out_data, 'UTF-8'))
 
-        print("Client disconnected...")
+        client.open_connection()
         self.close_connection()
 
-GPIO.setmode(GPIO.BCM)
-serv = Server("192.168.0.139",10000)
-GPIO.setup(18,GPIO.OUT)
+    def send_message_as_client(self,socket,message):
+        socket.send_message(bytes(message, 'UTF-8'))
+
+
+serv = Server("192.168.0.144", 8080)
 serv.listen_connection()
-GPIO.cleanup()
