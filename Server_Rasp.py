@@ -15,7 +15,7 @@ class Server(SocketServer):
         while True:
             in_data = self.receive_package(1024)
             msg = in_data.decode()
-            print(msg,',')
+            #print(msg,',')
             if msg == '1':
                 GPIO.output(18, GPIO.HIGH)
             if msg == '0':
@@ -29,8 +29,8 @@ class Server(SocketServer):
         print("Client disconnected...")
         self.close_connection()
 
-GPIO.setmode(GPIO.BCM)
-serv = Server("192.168.0.139",10000)
-GPIO.setup(18,GPIO.OUT)
-serv.listen_connection()
-GPIO.cleanup()
+# GPIO.setmode(GPIO.BCM)
+# serv = Server("192.168.0.139",10000)
+# GPIO.setup(18,GPIO.OUT)
+# serv.listen_connection()
+# GPIO.cleanup()

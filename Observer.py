@@ -3,7 +3,6 @@ import RPi.GPIO as GPIO
 import time
 
 
-
 class Observer(SocketClient):
     mpin = 17
     tpin = 27
@@ -11,6 +10,7 @@ class Observer(SocketClient):
     adj = 2.130620985
     i = 0
     t = 0
+
     def LDR(self):
         try:
             lecture=0 
@@ -61,8 +61,8 @@ class Observer(SocketClient):
             
 
 
-obs = Observer("192.168.0.144", 8080)
-GPIO.setmode(GPIO.BCM)
-obs.run()
-GPIO.cleanup()  
+# obs = Observer("192.168.0.144", 8080)
+# GPIO.setmode(GPIO.BCM)
+# obs.run()
+# GPIO.cleanup()
 		

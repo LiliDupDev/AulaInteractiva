@@ -37,5 +37,5 @@ class Server(SocketServer):
         socket.send_message(bytes(message, 'UTF-8'))
 
 
-serv = Server("192.168.0.144", 8080)
-serv.listen_connection()
+# serv = Server("192.168.0.144", 8080)
+# serv.listen_connection()
