@@ -43,7 +43,7 @@ class Observer(SocketClient):
 
     def run(self):
         self.open_connection()
-        self.send_message(bytes("This is from Client", 'UTF-8'))
+        #self.send_message(bytes("This is from Client", 'UTF-8'))
         #GPIO.setmode(GPIO.BCM)		
 
         
@@ -51,8 +51,8 @@ class Observer(SocketClient):
             #in_data = self.receive_package(1024)
             #print("From Server :", in_data.decode())
             out_data = str(self.LDR())
-            print("Data", out_data)
             if out_data!='0':
+                print("Data", out_data)
                 self.send_message(bytes(out_data, 'UTF-8'))
             if out_data == 'bye':
                 break
@@ -61,8 +61,8 @@ class Observer(SocketClient):
             
 
 
-# obs = Observer("192.168.0.144", 8080)
-# GPIO.setmode(GPIO.BCM)
-# obs.run()
-# GPIO.cleanup()
+obs = Observer("192.168.0.144", 5000)
+GPIO.setmode(GPIO.BCM)
+obs.run()
+GPIO.cleanup()
 		

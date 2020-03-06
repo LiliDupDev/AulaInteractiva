@@ -9,7 +9,7 @@ class clientRPC(object):
     def __init__(self, ip, port):
         self.IP = ip
         self.PORT = port
-        self.Proxy = xmlrpc.client.ServerProxy('http://'+ self.IP+':'+self.PORT,allow_none=True)
+        self.Proxy = xmlrpc.client.ServerProxy('http://'+ self.IP+':'+str(self.PORT),allow_none=True)
 
     # def save_data(self, data):
     #     date = str(datetime.now())

@@ -37,14 +37,15 @@ def process_RFID(ip, port):
 ########################################################################################################################
 import sys
 
-ip = sys.argv[1]
-port = sys.argv[2]
+#ip = sys.argv[1]
+#port = sys.argv[2]
 
 if __name__ == "__main__":
-    port_number=int(port)
-    thread_observer = threading.Thread(target=process_observer, args=(ip, port_number))
-    thread_light = threading.Thread(target=process_light, args=(ip, port_number))
-    thread_rfid = threading.Thread(target=process_RFID, args=(ip, port_number))
+    #port_number=int(port)
+    thread_observer = threading.Thread(target=process_observer, args=("192.168.0.144", 8000))
+    thread_light = threading.Thread(target=process_light, args=("", 10000))
+    
+    thread_rfid = threading.Thread(target=process_RFID, args=("192.168.0.144", 3500))
 
     #start threads
     thread_observer.start()
