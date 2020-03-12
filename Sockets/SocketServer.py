@@ -1,6 +1,5 @@
 import socket
 
-
 class SocketServer(object):
     IP = None                       # Server IP
     PORT = 1800                     # Default PORT to stablish connection

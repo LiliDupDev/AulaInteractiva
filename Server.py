@@ -10,12 +10,12 @@ class Server(SocketServer):
     def listen_connection(self):
         self.open_connection()
         print("Connected client :", self.clientAddress)
-        client = SocketClient('192.168.0.139', 10000)
+        client = SocketClient('192.168.43.237', 10000)
         client.open_connection()
         while True:
             in_data = self.receive_package(1024)
             msg = in_data.decode()
-            print(msg)
+            #print(msg)
             try:
                 value = float(msg)
                 if value > 10000:
@@ -29,13 +29,17 @@ class Server(SocketServer):
             except:
                 print(msg)
                 break
-
-        client.open_connection()
+        #client.close_connection()
         self.close_connection()
 
     def send_message_as_client(self,socket,message):
         socket.send_message(bytes(message, 'UTF-8'))
 
 
-# serv = Server("192.168.0.144", 8080)
-# serv.listen_connection()
+
+
+if __name__ == "__main__":
+    serv = Server("192.168.43.116", 5000)
+    serv.listen_connection()
+    #rfid = RFID_Listener("192.168.0.144", 3500)
+

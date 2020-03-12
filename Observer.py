@@ -2,7 +2,6 @@ from Sockets.SocketClient import SocketClient
 import RPi.GPIO as GPIO
 import time
 
-
 class Observer(SocketClient):
     mpin = 17
     tpin = 27

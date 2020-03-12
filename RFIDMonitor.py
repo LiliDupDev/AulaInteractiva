@@ -5,7 +5,6 @@ from datetime import datetime
 import xmlrpc
 
 class RFIDMonitor(clientRPC):
-
     def __init__(self, ip, port):
         clientRPC.__init__(self, ip, port)
 
@@ -30,7 +29,7 @@ class RFIDMonitor(clientRPC):
             
     def save_data(self,id,name,date):
         self.Proxy.save_data(str(id), name, str(date))
-    
+
+
 rfid = RFIDMonitor("192.168.0.144",3500)
 rfid.start_monitor()
-
