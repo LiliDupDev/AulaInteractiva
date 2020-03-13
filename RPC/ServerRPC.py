@@ -10,8 +10,7 @@ class ServerRPC(object):
         self.PORT = port
 
     def connect_listen(self):
-        self.server = SimpleXMLRPCServer((self.IP, self.PORT), logRequests=True,
-                                         allow_none=True)
+        self.server = SimpleXMLRPCServer((self.IP, self.PORT), logRequests=True, allow_none=True)
         self.server.register_instance(ServerRPC(self.IP, self.PORT))
         try:
             print("Server running ...")
