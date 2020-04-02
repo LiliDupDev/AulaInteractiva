@@ -38,10 +38,10 @@ class Metal_Detector(object):
         return int(self.response)
 
 
-#fibonacci_rpc = FibonacciRpcClient()
+
 metal_client = Metal_Detector()
 # TODO: Aqui va el codigo que monitorea el sensor de metal
 print(" Metal detected ")           # Cuando se detecta el metal debe ejecutar este codigo
 response = metal_client.call(5)     # El parametro es supuestamente el aula en que detecto el arma
 print(" [.] Got %r" % response)
-# la variable response regresa un 1 para que se encienda el buzzer
+# TODO: la variable response regresa un 1 para que se encienda el buzzer (Aqui va el codigo para enceder el buzzer)
