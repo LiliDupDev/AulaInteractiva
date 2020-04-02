@@ -4,7 +4,7 @@ import uuid
 #This script must be executed in Rasp
 class Metal_Detector(object):
     def __init__(self):
-        credentials = pika.PlainCredential('client','cl-123')
+        credentials = pika.PlainCredentials('client','cl-123')
         parameters = pika.ConnectionParameters("192.168.56.1",5672,'/',credentials) # server IP and port
         self.connection = pika.BlockingConnection(parameters)
 
@@ -44,3 +44,4 @@ metal_client = Metal_Detector()
 print(" Metal detected ")           # Cuando se detecta el metal debe ejecutar este codigo
 response = metal_client.call(5)     # El parametro es supuestamente el aula en que detecto el arma
 print(" [.] Got %r" % response)
+# la variable response regresa un 1 para que se encienda el buzzer
