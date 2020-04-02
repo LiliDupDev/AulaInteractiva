@@ -49,5 +49,5 @@ channel.basic_consume(queue='rpc_queue', on_message_callback=on_request)
 
 
 
-print(" [x] Awaiting")
+print(" [x] Listening ... ")
 channel.start_consuming()
