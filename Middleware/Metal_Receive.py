@@ -1,7 +1,6 @@
 import pika
-import threading
-# This script must be executed on server machine
 
+# This script must be executed on server machine
 
 # Stablish connection with server
 connection = pika.BlockingConnection(
@@ -21,8 +20,7 @@ def send_security_message(message):
 
     channel.basic_publish(
         exchange='topic_logs', routing_key=routing_key, body=message)
-    #print(" [x] Sent %r:%r" % (routing_key, message))
-    #connection.close()
+
 
 # Process when a metal is detected
 def metal_detected(aula):

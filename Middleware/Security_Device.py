@@ -1,6 +1,7 @@
 import pika
 from datetime import datetime
 
+# This file executes on the raspberry
 credentials = pika.PlainCredentials('client', 'cl-123')
 parameters = pika.ConnectionParameters("192.168.56.1", 5672, '/', credentials)  # server IP and port
 connection = pika.BlockingConnection(parameters)
@@ -11,12 +12,12 @@ channel.exchange_declare(exchange='topic_logs', exchange_type='topic')
 result = channel.queue_declare('', exclusive=True)
 queue_name = result.method.queue
 
-binding_key = "*.security" #sys.argv[1:] # All messages related with security
+binding_key = "*.security" # All messages related with security
 
 channel.queue_bind(
     exchange='topic_logs', queue=queue_name, routing_key=binding_key)
 
-print(' [*] Waiting. To exit press CTRL+C')
+print(' [*] Listening ...')
 
 
 def callback(ch, method, properties, body):
